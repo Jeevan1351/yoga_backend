@@ -86,7 +86,7 @@ exports.updatePassword = async (query) => {
 // Delete user
 exports.deleteUser = async (query) => {
   try {
-    const user = await User.remove({ email: query});
+    const user = await User.remove({ email: query.email});
     if (!user) {
       throw Error("Couldnt delete user");
     }

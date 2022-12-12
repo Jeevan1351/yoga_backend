@@ -42,6 +42,29 @@ exports.createUser = async (req, res) => {
   }
 };
 
+// Delete user by email
+exports.deleteUser = async (req, res) => {
+  try {
+    const data = await UserServices.deleteUser(req.body);
+    if (data !== null) {
+      return res.status(200).json({
+        status: 200,
+        data: data,
+        message: "User deleted successfully",
+      });
+    } else {
+      return res.status(400).json({
+        status: 400,
+        message: "User not deleted",
+      });
+    }
+  } catch (e) {
+
+    return res.status(400).json({ status: 400, message: e.message });
+  }
+};
+
+
 
 // Update the password of existing user
 exports.updatePassword = async (req, res) => {

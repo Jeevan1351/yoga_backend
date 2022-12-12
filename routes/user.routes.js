@@ -12,6 +12,9 @@ module.exports = (app) => {
     
     // Update password
     app.post('/users/update-password', userController.updatePassword);
+
+    // Delete user
+    app.post('/users/delete', userController.deleteUser);
     
     //Create admin user
     app.post('/users/create-admin', authenticateToken("admin"), userController.createAdminUser);
