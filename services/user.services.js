@@ -60,23 +60,47 @@ exports.createUser = async (query) => {
 // Updating user password
 exports.updatePassword = async (query) => {
   try {
+    // Creating digest of the current password
     var digest = crypto
       .createHash("sha256", process.env.HASH_SALT)
       .update(query.password)
       .digest("hex");
-    const user = await User.findOneAndUpdate(
+    
+    const user = await User.findOne({ email: query.email });
+    if (!user) {
+      throw Error("User not found");
+    }
+    // Checking current credentials
+    if (user.password !== digest) {
+      throw Error("Incorrect password");
+    }
+
+    // Creating digest of the new password
+    var newDigest = crypto
+      .createHash("sha256", process.env.HASH_SALT)
+      .update(query.newPassword)
+      .digest("hex");
+    
+
+    // Checking if new password is same as old password
+    if (digest === newDigest) {
+      throw Error("New password cannot be same as old password");
+    }
+
+    // Updating password
+    const newUser = await User.findOneAndUpdate(
       { email: query.email },
       {
         email: query.email,
-        password: digest,
+        password: newDigest,
       },
-      { upsert: true, new: true }
+      { new: true }
     );
-    if (!user) {
+    if (!newUser) {
       throw Error("Couldnt update password");
     }
     else
-      return user;
+      return newUser;
   } catch (e) {
     console.log("From user.services.passwordUpdate: ", e);
     throw Error(e);
