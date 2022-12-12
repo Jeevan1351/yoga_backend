@@ -41,7 +41,7 @@ router.get("/", async (req, res) => {
 });
 
 // Routes for all purposes
-// require("./routes/user.routes")(router);
+require("./routes/user.routes")(router);
 
 app.listen(process.env.PORT, () => {
   console.log("Listening to port ", process.env.PORT);
