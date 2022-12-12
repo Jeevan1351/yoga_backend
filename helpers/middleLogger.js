@@ -51,7 +51,7 @@ const middleLogger = async (req, res, next) => {
             method,
             url,
           };
-      } else if (user.role === "student") {
+      } else {
         var log = `[${formatted_date}] STUDENT ${method}:${url} ${user.email
           } ${durationInMilliseconds.toLocaleString()} ms`;
         var newServerLog = {
