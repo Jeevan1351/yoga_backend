@@ -3,6 +3,7 @@ const timeSlotServices = require('../services/timeSlot.services');
 // get time slots
 exports.getTimeSlots = async (req, res) => {
     try {
+        // console.log(req.body);
         const data = await timeSlotServices.getTimeSlots(req.body);
         if (data !== null) {
             return res.status(200).json({

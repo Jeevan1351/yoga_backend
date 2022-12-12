@@ -41,7 +41,13 @@ router.get("/", async (req, res) => {
 });
 
 // Routes for all purposes
+
+// Routes for user
 require("./routes/user.routes")(router);
+
+// Routes for time slots
+require("./routes/timeSlot.routes")(router);
+
 
 app.listen(process.env.PORT, () => {
   console.log("Listening to port ", process.env.PORT);

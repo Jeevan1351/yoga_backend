@@ -11,7 +11,7 @@ const TimeSlotSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-TimeSlot.index({ email: 1, year: 1, month: 1 }, { unique: true });
+TimeSlotSchema.index({ email: 1, year: 1, month: 1 }, { unique: true });
 
 const TimeSlot = mongoose.model("TimeSlot", TimeSlotSchema);
 

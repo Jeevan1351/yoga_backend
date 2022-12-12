@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 
 // Middleware to authenticate token
   const authenticateToken = (param) => {
+    param = param || "user";
   return (req, res, next) => {
     // Get auth header value
     const authHeader = req.headers["authorization"];
@@ -21,6 +22,7 @@ const jwt = require("jsonwebtoken");
       if (param === "admin" && user.role !== "admin") {
         return res.sendStatus(403);
       }
+      // console.log("user", user);
       req.user = user;
       next();
     });
