@@ -4,9 +4,12 @@ const authenticateToken = require('../helpers/authenticateToken');
 
 module.exports = (app) => {
 
-    // get time slots
+    // get time slot
     app.post('/time-slots', authenticateToken, timeSlotController.getTimeSlots);
-    
+
+    // get all time slots
+    app.post('/time-slots/all', authenticateToken, timeSlotController.getAllTimeSlots);
+
     // book time slot
     app.post('/time-slots/book', authenticateToken, timeSlotController.bookTimeSlot);
 
