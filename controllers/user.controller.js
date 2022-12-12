@@ -21,6 +21,28 @@ exports.loginUser = async (req, res) => {
   }
 };
 
+// Create new user
+exports.createUser = async (req, res) => {
+  try {
+    const data = await UserServices.createUser(req.body);
+    if (data !== null) {
+      return res.status(200).json({
+        status: 200,
+        data: data,
+        message: "User created successfully",
+      });
+    } else {
+      return res.status(400).json({
+        status: 400,
+        message: "User not created",
+      });
+    }
+  } catch (e) {
+    return res.status(400).json({ status: 400, message: e.message });
+  }
+};
+
+
 // Update the password of existing user
 exports.updatePassword = async (req, res) => {
   try {
