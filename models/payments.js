@@ -12,7 +12,6 @@ const PaymentSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-PaymentSchema.index({ email: 1, year: 1, month: 1, success }, { unique: true });
 const Payment = mongoose.model("Payment", PaymentSchema);
 
 module.exports = Payment;
