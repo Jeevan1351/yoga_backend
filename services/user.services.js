@@ -27,7 +27,7 @@ exports.getUser = async (query) => {
     var semiUser = {
       email: user.email,
       role: user.role,
-      name: user.name
+      name: user.name,
     };
     //Generating JWT token for the extracted user
     semiUser.token = generateToken(semiUser);
@@ -35,6 +35,25 @@ exports.getUser = async (query) => {
   } catch (e) {
     console.log("From user.services.getUser: ", e);
     throw e;
+  }
+};
+
+// Create new user
+exports.createUser = async (query) => {
+  try {
+    var digest = crypto
+      .createHash("sha256", process.env.HASH_SALT)
+      .update(query.password)
+      .digest("hex");
+    const user = await User.findOneAndUpdate({ email: query.email }, { email: query.email, password: digest, name: query.name, role: "user" }, { upsert: true, new: true });
+    if (!user) {
+      throw Error("Couldnt create user");
+    }
+    else
+      return user;
+  } catch (e) {
+    console.log("From user.services.createUser: ", e);
+    throw Error(e);
   }
 };
 
@@ -63,6 +82,23 @@ exports.updatePassword = async (query) => {
     throw Error(e);
   }
 };
+
+// Delete user
+exports.deleteUser = async (query) => {
+  try {
+    const user = await User.remove({ email: query});
+    if (!user) {
+      throw Error("Couldnt delete user");
+    }
+    else
+      return user;
+  } catch (e) {
+    console.log("From user.services.deleteUser: ", e);
+    throw Error(e);
+  }
+};
+
+
 
 // Create admin user
 exports.createAdminUser = async (query) => {
