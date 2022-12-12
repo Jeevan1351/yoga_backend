@@ -1,5 +1,4 @@
-// const timeSlotServices = require('../services/timeSlot.services');
-
+const timeSlotServices = require('../services/timeSlot.services');
 
 // get time slots
 exports.getTimeSlots = async (req, res) => {
@@ -18,6 +17,28 @@ exports.getTimeSlots = async (req, res) => {
             });
         }
     } catch (e) {
+        return res.status(400).json({ status: 400, message: e.message });
+    }
+}
+
+// get all time slots
+exports.getAllTimeSlots = async (req, res) => {
+    try {
+        const data = await timeSlotServices.getAllTimeSlots(req.body);
+        if (data !== null) {
+            return res.status(200).json({
+                status: 200,
+                data: data,
+                message: "All time slots fetched successfully",
+            });
+        } else {
+            return res.status(400).json({
+                status: 400,
+                message: "All time slots not fetched",
+            });
+        }
+    }
+    catch (e) {
         return res.status(400).json({ status: 400, message: e.message });
     }
 }
