@@ -45,7 +45,8 @@ exports.createUser = async (query) => {
       .createHash("sha256", process.env.HASH_SALT)
       .update(query.password)
       .digest("hex");
-    const user = await User.findOneAndUpdate({ email: query.email }, { email: query.email, password: digest, name: query.name, role: "user" }, { upsert: true, new: true });
+    const user = new User({ email: query.email, password: digest, name: query.name, role: "user" });
+    await user.save();
     if (!user) {
       throw Error("Couldnt create user");
     }
@@ -131,22 +132,22 @@ exports.createAdminUser = async (query) => {
       .createHash("sha256", process.env.HASH_SALT)
       .update(query.password)
       .digest("hex");
-    const user = await User.findOneAndUpdate(
-      { email: query.email },
+    const user = new User(
       {
         email: query.email,
         name: query.name,
-        department: query.department||"admin",
-        password: digest,
-        role: query.role||"admin",
-      },
-      { upsert: true, new: true }
+        role: "admin",
+        password: digest
+      }
     );
+    await user.save();
     if (!user) {
       throw Error("Couldnt create user");
     }
     return user;
   } catch (e) {
+    if( e.code === 11000)
+      throw Error("User already exists");
     console.log("From user.services.createAdminUser: ", e);
     throw Error(e);
   }
