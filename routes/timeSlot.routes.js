@@ -11,7 +11,7 @@ module.exports = (app) => {
     app.post('/time-slots/all', authenticateToken(), middleLogger, timeSlotController.getAllTimeSlots);
 
     // book time slot
-    app.post('/time-slots/book', authenticateToken(), middleLogger, timeSlotController.bookTimeSlot);
+    app.post('/time-slots/book', middleLogger, timeSlotController.bookTimeSlot);
 
     // cancel time slot
     app.post('/time-slots/cancel', authenticateToken(), middleLogger, timeSlotController.cancelTimeSlot);
