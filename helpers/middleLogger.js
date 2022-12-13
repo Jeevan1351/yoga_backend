@@ -1,6 +1,5 @@
 const serverLog = require("../models/serverLogs.model");
 
-
 const getActualRequestDurationInMilliseconds = (start) => {
   const NS_PER_SEC = 1e9; //  convert to nanoseconds
   const NS_TO_MS = 1e6; // convert to milliseconds
@@ -10,7 +9,6 @@ const getActualRequestDurationInMilliseconds = (start) => {
 
 const getFormattedDate = () => {
   let current_datetime = new Date();
-
   return (
     current_datetime.getFullYear() +
     "-" +
@@ -52,7 +50,7 @@ const middleLogger = async (req, res, next) => {
             url,
           };
       } else {
-        var log = `[${formatted_date}] STUDENT ${method}:${url} ${user.email
+        var log = `[${formatted_date}] USER ${method}:${url} ${user.email
           } ${durationInMilliseconds.toLocaleString()} ms`;
         var newServerLog = {
           user: req.user,
@@ -66,7 +64,6 @@ const middleLogger = async (req, res, next) => {
     } else {
       var log = `[${formatted_date}] ${method}:${url} ${durationInMilliseconds.toLocaleString()} ms`;
       newServerLog = {
-        user: "VJ",
         server: process.env.SERVER_NAME,
         url,
         method,

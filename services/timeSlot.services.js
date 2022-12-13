@@ -4,7 +4,7 @@ const TimeSlot = require("../models/timeslots.model");
 exports.getTimeSlots = async (req) => {
     try {
         // console.log(req);
-        const data = await TimeSlot.find({
+        const data = await TimeSlot.findOne({
             email: req.email,
             year: req.year,
             month: req.month,

@@ -1,19 +1,19 @@
 const timeSlotController = require('../controllers/timeSlot.controller');
-// const middleLogger = require('../helpers/middleLogger');
 const authenticateToken = require('../helpers/authenticateToken');
+const middleLogger = require('../helpers/middleLogger');
 
 module.exports = (app) => {
 
     // get time slot
-    app.post('/time-slots', authenticateToken(), timeSlotController.getTimeSlots);
+    app.post('/time-slots', authenticateToken(), middleLogger, timeSlotController.getTimeSlots);
 
     // get all time slots
-    app.post('/time-slots/all', authenticateToken(), timeSlotController.getAllTimeSlots);
+    app.post('/time-slots/all', authenticateToken(), middleLogger, timeSlotController.getAllTimeSlots);
 
     // book time slot
-    app.post('/time-slots/book', authenticateToken(), timeSlotController.bookTimeSlot);
+    app.post('/time-slots/book', authenticateToken(), middleLogger, timeSlotController.bookTimeSlot);
 
     // cancel time slot
-    app.post('/time-slots/cancel', authenticateToken(), timeSlotController.cancelTimeSlot);
+    app.post('/time-slots/cancel', authenticateToken(), middleLogger, timeSlotController.cancelTimeSlot);
 
 }

@@ -48,6 +48,9 @@ require("./routes/user.routes")(router);
 // Routes for time slots
 require("./routes/timeSlot.routes")(router);
 
+// Routes for payment
+require("./routes/payment.routes")(router);
+
 
 app.listen(process.env.PORT, () => {
   console.log("Listening to port ", process.env.PORT);

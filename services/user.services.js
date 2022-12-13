@@ -28,6 +28,7 @@ exports.getUser = async (query) => {
       email: user.email,
       role: user.role,
       name: user.name,
+      age: user.age,
     };
     //Generating JWT token for the extracted user
     semiUser.token = generateToken(semiUser);
@@ -45,7 +46,7 @@ exports.createUser = async (query) => {
       .createHash("sha256", process.env.HASH_SALT)
       .update(query.password)
       .digest("hex");
-    const user = new User({ email: query.email, password: digest, name: query.name, role: "user" });
+    const user = new User({ email: query.email, password: digest, name: query.name, age: query.age, role: "user" });
     await user.save();
     if (!user) {
       throw Error("Couldnt create user");
@@ -137,7 +138,8 @@ exports.createAdminUser = async (query) => {
         email: query.email,
         name: query.name,
         role: "admin",
-        password: digest
+        password: digest,
+        age: query.age||0,
       }
     );
     await user.save();
@@ -149,6 +151,20 @@ exports.createAdminUser = async (query) => {
     if( e.code === 11000)
       throw Error("User already exists");
     console.log("From user.services.createAdminUser: ", e);
+    throw Error(e);
+  }
+};
+
+// get user by email
+exports.getUserByEmail = async (query) => {
+  try {
+    const user = await User.findOne({ email: query.email });
+    if (!user) {
+      throw Error("Couldnt find user");
+    }
+    return user;
+  } catch (e) {
+    console.log("From user.services.getUserByEmail: ", e);
     throw Error(e);
   }
 };

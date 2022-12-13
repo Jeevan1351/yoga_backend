@@ -110,3 +110,25 @@ exports.createAdminUser = async (req, res) => {
     return res.status(400).json({ status: 400, message: e.message });
   }
 }
+
+// Get user by email
+exports.getUser = async (req, res) => {
+  try {
+    const data = await UserServices.getUserByEmail(req.body);
+    if (data !== null) {
+      return res.status(200).json({
+        status: 200,
+        data: data,
+        message: "User fetched successfully",
+      });
+    } else {
+      return res.status(400).json({
+        status: 400,
+        message: "User not fetched",
+      });
+    }
+  }
+  catch (e) {
+    return res.status(400).json({ status: 400, message: e.message });
+  }
+}
